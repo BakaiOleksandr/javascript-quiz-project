@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
   const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
 
-  // Display the time remaining in the time remaining container
   const timeRemainingContainer = document.getElementById("timeRemaining");
   timeRemainingContainer.innerText = `${minutes}:${seconds}`;
 
@@ -60,6 +59,36 @@ document.addEventListener("DOMContentLoaded", () => {
   /************  TIMER  ************/
 
   let timer;
+
+function startTimer() {
+  const timeRemainingContainer = document.getElementById("timeRemaining");
+updateTimeDisplay();
+
+ 
+
+  if (!timer) {
+    timer = setInterval(() => {
+      quiz.timeRemaining--;
+      updateTimeDisplay();
+
+      
+
+      // Когда время истекло
+      if (quiz.timeRemaining <= 0) {
+        clearInterval(timer);
+        timer = null; // сбрасываем
+        showResults();
+      }
+    }, 1000);
+  }
+
+  function updateTimeDisplay() {
+    const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
+    const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+    timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+  }
+}
+startTimer();
 
 
   /************  EVENT LISTENERS  ************/
